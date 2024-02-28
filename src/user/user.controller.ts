@@ -6,17 +6,22 @@ import {
   Param,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from 'src/db/entity/user.entity';
+import { CreateUserDto } from './Dto/createUser.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() bodyData): Promise<UserEntity[]> {
-    return await this.userService.create(bodyData);
+  @UsePipes(new ValidationPipe())
+  // CreateUserDto it will be automatically validated
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity[]> {
+    return await this.userService.create(createUserDto);
   }
 
   @Get()
