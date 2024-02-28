@@ -8,14 +8,15 @@ import {
   Post,
 } from '@nestjs/common';
 import { UserService } from './user.service';
+import { UserEntity } from 'src/db/entity/user.entity';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() bodyData) {
-    return this.userService.create();
+  async create(@Body() bodyData): Promise<UserEntity[]> {
+    return await this.userService.create(bodyData);
   }
 
   @Get()

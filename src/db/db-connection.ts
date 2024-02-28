@@ -1,16 +1,16 @@
 import { DataSource } from 'typeorm';
-import { User } from './entity/user.entity';
+import { UserEntity } from './entity/user.entity';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
+  host: 'localhost', 
   port: 5432,
   username: 'postgres',
   password: 'root',
   database: 'nest-demo',
   synchronize: true,
   logging: true,
-  entities: [User],
+  entities: [UserEntity],
   subscribers: [],
   migrations: [],
 });

@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum Gender {
   MALE = 'male',
@@ -6,8 +12,8 @@ export enum Gender {
   DONT_WANT_TO_DISCLOSE = 'dont_want_to_disclose',
 }
 
-@Entity()
-export class User {
+@Entity({name:"user"})
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -35,4 +41,14 @@ export class User {
     default: Gender.DONT_WANT_TO_DISCLOSE,
   })
   gender: Gender;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
 }
