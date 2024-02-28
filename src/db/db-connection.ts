@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { User } from './entity/user.entity';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -9,7 +10,7 @@ export const AppDataSource = new DataSource({
   database: 'nest-demo',
   synchronize: true,
   logging: true,
-  entities: [],
+  entities: [User],
   subscribers: [],
   migrations: [],
 });
