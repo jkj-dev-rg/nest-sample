@@ -16,6 +16,8 @@ export class UserService {
   ) {}
 
   async create(bodyData): Promise<ResponseDto> {
+    console.log({ bodyData });
+
     const newUser = this.userRepository.create(bodyData); // Create a new instance of the UserEntity
     const savedUser = await this.userRepository.save(newUser); // Save the new user to the database
     return this.responseUtil.createStructuredResponse(
@@ -79,7 +81,17 @@ export class UserService {
     );
   }
 
-  remove() {
-    return 'user removed';
+  async remove(userId: number) {
+    const updateUserRes = await this.userRepository.update(
+      { id: userId, isDeleted: false },
+      { isDeleted: true },
+    );
+    if (updateUserRes.affected !== 1)
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    return this.responseUtil.createStructuredResponse(
+      HttpStatus.OK,
+      'User deleted',
+      updateUserRes,
+    );
   }
 }
