@@ -15,7 +15,6 @@ export class UserService {
   ) {}
 
   async create(bodyData): Promise<ResponseDto> {
-    const data = await this.userRepository.create(bodyData);
     const newUser = this.userRepository.create(bodyData); // Create a new instance of the UserEntity
     const savedUser = await this.userRepository.save(newUser); // Save the new user to the database
     return this.responseUtil.createStructuredResponse(
