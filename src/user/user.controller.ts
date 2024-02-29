@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -15,6 +16,7 @@ import { CreateUserDto } from './Dto/createUser.dto';
 import { ResponseDto } from './Dto/response.dto';
 import { GetAllUserDto } from './Dto/getAllUser.dto';
 import { GetUserDto } from './Dto/getUser.dto';
+import { UpdateUserDto } from './Dto/updateUser.dto';
 
 @Controller('user')
 export class UserController {
@@ -28,18 +30,24 @@ export class UserController {
   }
 
   @Get()
+  @UsePipes(new ValidationPipe())
   getAll(@Query() getAllUserDto: GetAllUserDto): Promise<ResponseDto> {
     return this.userService.getAll(getAllUserDto);
   }
 
   @Get(':userId')
+  @UsePipes(new ValidationPipe())
   getById(@Param() getUserDto: GetUserDto): Promise<ResponseDto> {
     return this.userService.getById(getUserDto);
   }
 
   @Patch(':userId')
-  update() {
-    return this.userService.update();
+  @UsePipes(new ValidationPipe())
+  update(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Body() updateBody: UpdateUserDto,
+  ): Promise<ResponseDto> {
+    return this.userService.update(userId, updateBody);
   }
 
   @Delete(':userId')

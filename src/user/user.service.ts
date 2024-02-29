@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { ResponseService } from 'src/util/response.util';
 import { ResponseDto } from './Dto/response.dto';
 import { GetUserDto } from './Dto/getUser.dto';
+import { CreateUserDto } from './Dto/createUser.dto';
 
 @Injectable()
 export class UserService {
@@ -46,8 +47,6 @@ export class UserService {
   }
 
   async getById(getUserDto: GetUserDto): Promise<ResponseDto> {
-    console.log(getUserDto);
-
     const user = await this.userRepository.findOne({
       where: {
         id: getUserDto.userId,
@@ -66,8 +65,18 @@ export class UserService {
     );
   }
 
-  update() {
-    return 'update user by id';
+  async update(userId: number, updateBody: Partial<CreateUserDto>) {
+    const updateUserRes = await this.userRepository.update(
+      { id: userId },
+      updateBody,
+    );
+    if (updateUserRes.affected !== 1)
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    return this.responseUtil.createStructuredResponse(
+      HttpStatus.OK,
+      'User updated',
+      updateUserRes,
+    );
   }
 
   remove() {
