@@ -6,12 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './Dto/createUser.dto';
 import { ResponseDto } from './Dto/response.dto';
+import { GetAllUserDto } from './Dto/getAllUser.dto';
 
 @Controller('user')
 export class UserController {
@@ -25,8 +27,8 @@ export class UserController {
   }
 
   @Get()
-  getAll() {
-    return this.userService.getAll();
+  getAll(@Query() getAllUserDto: GetAllUserDto):Promise<ResponseDto> {
+    return this.userService.getAll(getAllUserDto);
   }
 
   @Get(':userId')
