@@ -32,11 +32,4 @@ export class UpdateUserDto {
   @Length(2, 70)
   @IsOptional()
   address: string;
-  // Exclude any additional properties not defined in the DTO
-  @Exclude()
-  extraProperties: any;
-
-  @ValidateIf((obj, value) => value !== undefined) // Validate only if the property is provided
-  @Exclude() // Exclude from serialization
-  name: any; // Define a dummy property to exclude "name" if passed
 }
