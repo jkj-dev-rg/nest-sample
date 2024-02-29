@@ -35,6 +35,9 @@ export class UserEntity {
   @Column({ default: false })
   isEmailVerified: boolean;
 
+  @Column({ default: false })
+  isDeleted: boolean;
+
   @Column({
     type: 'enum',
     enum: Gender,
