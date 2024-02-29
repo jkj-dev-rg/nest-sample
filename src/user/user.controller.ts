@@ -14,6 +14,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './Dto/createUser.dto';
 import { ResponseDto } from './Dto/response.dto';
 import { GetAllUserDto } from './Dto/getAllUser.dto';
+import { GetUserDto } from './Dto/getUser.dto';
 
 @Controller('user')
 export class UserController {
@@ -32,8 +33,8 @@ export class UserController {
   }
 
   @Get(':userId')
-  getById(@Param() param) {
-    return this.userService.getById();
+  getById(@Param() getUserDto: GetUserDto): Promise<ResponseDto> {
+    return this.userService.getById(getUserDto);
   }
 
   @Patch(':userId')

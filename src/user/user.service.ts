@@ -1,9 +1,10 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/db/entity/user.entity';
 import { Repository } from 'typeorm';
 import { ResponseService } from 'src/util/response.util';
 import { ResponseDto } from './Dto/response.dto';
+import { GetUserDto } from './Dto/getUser.dto';
 
 @Injectable()
 export class UserService {
@@ -34,7 +35,7 @@ export class UserService {
         'email',
         'createdAt',
         'updatedAt',
-      ], // Specify only the fields you want to include
+      ],
       skip: (page - 1) * take,
       take,
     });
@@ -45,8 +46,25 @@ export class UserService {
     );
   }
 
-  getById() {
-    return 'get user by Id';
+  async getById(getUserDto: GetUserDto): Promise<ResponseDto> {
+    console.log(getUserDto);
+
+    const user = await this.userRepository.findOne({
+      where: {
+        id: getUserDto.userId,
+      },
+    });
+
+    if (!user)
+      throw new NotFoundException(
+        `User with ID ${getUserDto.userId} not found`,
+      );
+
+    return this.responseUtil.createStructuredResponse(
+      HttpStatus.OK,
+      'User data fetched',
+      user,
+    );
   }
 
   update() {
