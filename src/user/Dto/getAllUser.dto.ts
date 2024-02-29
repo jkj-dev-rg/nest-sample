@@ -1,11 +1,11 @@
-import { IsNumber, IsNotEmpty } from 'class-validator';
+import { IsNumber, IsNotEmpty, IsNumberString } from 'class-validator';
 
 export class GetAllUserDto {
-  @IsNumber()
+  @IsNumberString()
   @IsNotEmpty()
   page: number;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsNumberString()
   limit: number;
 }
