@@ -10,8 +10,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserEntity } from 'src/db/entity/user.entity';
 import { CreateUserDto } from './Dto/createUser.dto';
+import { ResponseDto } from './Dto/response.dto';
 
 @Controller('user')
 export class UserController {
@@ -20,7 +20,7 @@ export class UserController {
   @Post()
   @UsePipes(new ValidationPipe())
   // CreateUserDto it will be automatically validated
-  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity[]> {
+  async create(@Body() createUserDto: CreateUserDto): Promise<ResponseDto> {
     return await this.userService.create(createUserDto);
   }
 
