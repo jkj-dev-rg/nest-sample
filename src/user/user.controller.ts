@@ -17,6 +17,7 @@ import { ResponseDto } from './Dto/response.dto';
 import { GetAllUserDto } from './Dto/getAllUser.dto';
 import { GetUserDto } from './Dto/getUser.dto';
 import { UpdateUserDto } from './Dto/updateUser.dto';
+import { NoExtraPropertiesPipe } from 'src/util/noExtraProperty.util';
 
 @Controller('user')
 export class UserController {
@@ -24,6 +25,7 @@ export class UserController {
 
   @Post()
   @UsePipes(new ValidationPipe())
+  @UsePipes(new NoExtraPropertiesPipe())
   // CreateUserDto it will be automatically validated
   async create(@Body() createUserDto: CreateUserDto): Promise<ResponseDto> {
     return await this.userService.create(createUserDto);
@@ -43,6 +45,7 @@ export class UserController {
 
   @Patch(':userId')
   @UsePipes(new ValidationPipe())
+  @UsePipes(new NoExtraPropertiesPipe())
   update(
     @Param('userId', ParseIntPipe) userId: number,
     @Body() updateBody: UpdateUserDto,
