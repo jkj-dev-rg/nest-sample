@@ -3,7 +3,7 @@ import { UserEntity } from './entity/user.entity';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost', 
+  host: 'localhost',
   port: 5432,
   username: 'postgres',
   password: 'root',

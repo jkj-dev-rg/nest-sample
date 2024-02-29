@@ -8,6 +8,6 @@ import { ResponseService } from 'src/util/response.util';
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
-  providers: [UserService,ResponseService],
+  providers: [UserService, ResponseService],
 })
 export class UserModule {}

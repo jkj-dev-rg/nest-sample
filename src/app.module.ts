@@ -7,7 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type:'postgres',
+      type: 'postgres',
       host: 'localhost',
       port: 5432,
       username: 'postgres',
@@ -15,13 +15,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: 'nest-demo',
       synchronize: true,
       logging: true,
-      entities: [__dirname + '/**/*.entity{.ts,.js}' ],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       subscribers: [],
       migrations: [],
     }),
-    UserModule
+    UserModule,
   ],
-  controllers: [AppController], 
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

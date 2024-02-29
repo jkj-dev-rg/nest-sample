@@ -27,7 +27,7 @@ export class UserController {
   }
 
   @Get()
-  getAll(@Query() getAllUserDto: GetAllUserDto):Promise<ResponseDto> {
+  getAll(@Query() getAllUserDto: GetAllUserDto): Promise<ResponseDto> {
     return this.userService.getAll(getAllUserDto);
   }
 

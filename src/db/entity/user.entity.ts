@@ -12,7 +12,7 @@ export enum Gender {
   DONT_WANT_TO_DISCLOSE = 'dont_want_to_disclose',
 }
 
-@Entity({name:"user"})
+@Entity({ name: 'user' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
