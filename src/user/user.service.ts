@@ -15,19 +15,15 @@ export class UserService {
     private readonly responseUtil: ResponseService,
   ) {}
 
-  async create(bodyData): Promise<ResponseDto> {
+  async create(bodyData): Promise<CreateUserDto[]> {
     console.log({ bodyData });
 
     const newUser = this.userRepository.create(bodyData); // Create a new instance of the UserEntity
     const savedUser = await this.userRepository.save(newUser); // Save the new user to the database
-    return this.responseUtil.createStructuredResponse(
-      HttpStatus.OK,
-      'User created successfully',
-      savedUser,
-    );
+    return savedUser;
   }
 
-  async getAll(query): Promise<ResponseDto> {
+  async getAll(query): Promise<[CreateUserDto[], number]> {
     const { page, limit: take } = query;
     const userData = await this.userRepository.findAndCount({
       select: [
@@ -41,14 +37,10 @@ export class UserService {
       skip: (page - 1) * take,
       take,
     });
-    return this.responseUtil.createStructuredResponse(
-      HttpStatus.OK,
-      'All user fetched',
-      userData,
-    );
+    return userData;
   }
 
-  async getById(getUserDto: GetUserDto): Promise<ResponseDto> {
+  async getById(getUserDto: GetUserDto): Promise<CreateUserDto> {
     const user = await this.userRepository.findOne({
       where: {
         id: getUserDto.userId,
@@ -59,12 +51,7 @@ export class UserService {
       throw new NotFoundException(
         `User with ID ${getUserDto.userId} not found`,
       );
-
-    return this.responseUtil.createStructuredResponse(
-      HttpStatus.OK,
-      'User data fetched',
-      user,
-    );
+    return user;
   }
 
   async update(userId: number, updateBody: Partial<CreateUserDto>) {
@@ -74,11 +61,7 @@ export class UserService {
     );
     if (updateUserRes.affected !== 1)
       throw new NotFoundException(`User with ID ${userId} not found`);
-    return this.responseUtil.createStructuredResponse(
-      HttpStatus.OK,
-      'User updated',
-      updateUserRes,
-    );
+    return updateUserRes;
   }
 
   async remove(userId: number) {
@@ -88,10 +71,6 @@ export class UserService {
     );
     if (updateUserRes.affected !== 1)
       throw new NotFoundException(`User with ID ${userId} not found`);
-    return this.responseUtil.createStructuredResponse(
-      HttpStatus.OK,
-      'User deleted',
-      updateUserRes,
-    );
+    return updateUserRes;
   }
 }
